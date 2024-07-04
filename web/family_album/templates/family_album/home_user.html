@@ -1,0 +1,49 @@
+{% extends "home.html" %}
+{% if request.user.is_authenticated %}
+{% block content %}
+<div class="content_block d-flex justify-content-between align-items-center mr-5">
+    <div class="album_view">
+        Обзор альбомов
+    </div>
+    <div>
+        <a href="{% url 'folder_create' %}" class="btn btn-outline-secondary"
+            style="font-family: Playwrite SK, cursive;">+ Cоздать альбом</a>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="row justify-content-center">
+        {% for folder in folders %}
+        <div class="col-md-2 album m-3"
+            style="background-image: url('{{ folder.cover_photo }}'); background-size: cover; background-position: center;">
+            <div class="name_col">
+                {{ folder.name }}
+            </div>
+            <a href="{% url 'folder_detail' folder.id %}" class="album_link"></a>
+            <div class="d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-album" type="button" id="click_folder" data-bs-toggle="dropdown"
+                        aria-expanded="false" style="width: 100px">
+                        Действие
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a class="dropdown-item" href="{% url 'photo_upload_in_folder' folder.id %}">Загрузить
+                                фото</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'folder_rename' folder.id %}">Изменить альбом</a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{% url 'folder_delete' folder.id %}" class="logout">
+                                {% csrf_token %}
+                                <input type="submit" class="dropdown-item" value="Удалить альбом">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+{% endif %}

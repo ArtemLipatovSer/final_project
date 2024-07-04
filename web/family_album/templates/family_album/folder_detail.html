@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+{% block title %}{{ folder.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-around align-items-center mt-5">
+    <h1 class="name_album">{{ folder.name }}</h1>
+    <a href="{% url 'photo_upload_in_folder' folder.id %}" class="btn btn-outline-secondary">Загрузить фотографию</a>
+</div>
+<div style="text-align: center;">
+    <h2 class="name_album">Фотографии альбома - {{ folder.name }}</h2>
+</div>
+<div class="row p-5">
+    {% for photo in photos %}
+        <div class="col-md-2 photo_album">
+            <div class="border p-4 rounded shadow text-center">
+                <a data-fancybox="gallery" href="{{ photo.image.url }}">
+                    <img src="{{ photo.image.url }}" class="img-fluid" alt="{{ photo.title }}">
+                </a>
+                <p class="name_album" style="font-size: 0.8rem;">{{ photo.title }}</p>
+                <form method="POST" action="{% url 'photo_delete' photo.id %}" class="mt-2">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="submit" class="btn btn-outline-secondary btn_1">Удалить</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

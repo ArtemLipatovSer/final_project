@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block title %}Загрузка фото{% endblock %}
+{% block content %}
+<div class="center m-1">
+    <h1 class="name_album">Загрузка фотографии</h1>
+    <form method="POST" enctype="multipart/form-data" class="card">
+        {% csrf_token %}
+        <div class="mb-4 p-1 m-1">
+            <div class="input__wrapper">
+                <input name="image" type="file" id="id_image" accept="image/*" required="" aria-invalid="true"
+                    class="input input__file" multiple>
+                <label for="id_image" class="input__file-button">
+                    <span class="input__file-icon-wrapper"><img class="input__file-icon"
+                            src="{% static 'images/add.png' %}" alt="Выбрать файл" width="25"></span>
+                    <span class="input__file-button-text">Выберите файл</span>
+                </label>
+            </div>
+        </div>
+        <div class="mb-4">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
+        <button type="submit" class="btn btn-outline-secondary">Загрузить</button>
+    </form>
+</div>
+{% endblock %}
